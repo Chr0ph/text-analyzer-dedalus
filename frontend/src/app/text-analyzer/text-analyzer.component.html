@@ -1,0 +1,45 @@
+<body>
+<div class="container">
+  <h2>Text Analysis Tool</h2>
+
+  <!-- Dropdown to select between vowel or consonant analysis -->
+  <label for="analysisType">Select Analysis Type:</label>
+  <select id="analysisType" [(ngModel)]="analysisType">
+    <option value="vowels">Vowels</option>
+    <option value="consonants">Consonants</option>
+  </select>
+
+  <!-- Toggle switch to select between offline or online mode -->
+  <div class="toggle-container">
+    <label for="isOnline">Select Method:</label>
+    <label class="switch">
+      <input type="checkbox" (change)="onToggleChange()">
+      <span class="slider round"></span>
+    </label>
+    <span class="onlineSpan">{{ isOnline }}</span>
+  </div>
+
+  <!-- Text area for inputting the text -->
+    <label for="userInput" style="margin-top:10px">Enter Text:</label>
+    <input type="text" id="userInput" [(ngModel)]="textInput" placeholder="Type your text here...">
+
+  <!-- Button to trigger the analysis -->
+  <button (click)="analyzeText()">Analyze</button>
+
+  <!-- Button to reset the analysis history -->
+  <button *ngIf="analysisHistory.length > 0" (click)="resetHistory()" class="resetButton">Reset History</button>
+
+  <!-- Displaying the analysis results -->
+  <div *ngIf="analysisHistory.length > 0">
+    <h3>Analysis History:</h3>
+    <div *ngFor="let result of analysisHistory; let i = index">
+      <div class="analysis-header">
+        {{ result.split('\n')[0] }}
+        <span class="delete-button" (click)="deleteResult(i)">&#10006;</span> <!-- Red "x" delete button -->
+      </div>
+      <pre *ngIf="result.split('\n').slice(1).length != 0">{{ result.split('\n').slice(1).join('\n') }}</pre>
+      <hr *ngIf="i < analysisHistory.length - 1"> <!-- Show line only if not the last item -->
+    </div>
+  </div>
+</div>
+</body>
